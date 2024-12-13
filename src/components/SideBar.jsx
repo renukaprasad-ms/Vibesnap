@@ -3,10 +3,32 @@ import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { CgLogOut } from "react-icons/cg";
+import { useNavigate} from "react-router-dom";
+import { auth } from "../config/firebase";
+import { signOut } from "firebase/auth";
+import blankProfile from "../assets/profilepic.webp"
 
-const SideBar = () => {
+const SideBar = ({displaySideBarSm }) => {
+  const user = auth?.currentUser
+  const navigate = useNavigate();
+  const handleprofileClick = () => {
+    navigate("/profile/7843");
+  };
+  const handleCreateClick = () => {
+    navigate("/create");
+  };
+  const handleHomeClick = () => {
+    navigate("/");
+  };
+  const handleSignOut =async () =>{
+    try{
+      await signOut(auth);
+    }catch (err) {
+      console.error(err)
+    }
+  }
   return (
-    <div className="w-full lg:w-[20%] h-auto lg:flex flex-col justify-center  items-start border-r-2 ">
+    <div className="w-full lg:w-[20%] h-auto lg:flex flex-col justify-center cursor-pointer  items-start border-r-2 ">
       <div className="w-[20%] h-screen fixed hidden lg:block ">
         <div className="w-full h-[20%] flex items-center justify-start border-b-2">
           <img
@@ -17,19 +39,28 @@ const SideBar = () => {
           <h1 className="font-extrabold text-3xl">VibeSnap</h1>
         </div>
         <div className="w-full h-[60%] flex flex-col gap-6 pt-[10%]">
-          <div className="w-full h-[15%] flex items-center justify-center font-bold text-xl gap-4">
+          <div
+            className="w-full h-[15%] flex items-center justify-center font-bold text-xl gap-4"
+            onClick={() => handleHomeClick()}
+          >
             <div>
               <IoMdHome size={30} />
             </div>
             Home
           </div>
-          <div className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg">
+          <div
+            className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg "
+            onClick={() => handleprofileClick()}
+          >
             <div>
               <CgProfile size={30} />
             </div>
             Profile
           </div>
-          <div className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg">
+          <div
+            className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg"
+            onClick={() => handleCreateClick()}
+          >
             <div>
               <AiOutlinePlusCircle size={30} />
             </div>
@@ -37,20 +68,31 @@ const SideBar = () => {
           </div>
         </div>
 
-        <div className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg border-t-2">
+        <div className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg border-t-2" onClick={handleSignOut}>
           <div>
             <CgLogOut size={30} />
           </div>
           LogOut
         </div>
       </div>
-      <div className="w-full h-32 lg:hidden flex items-center justify-start pl-6 gap-6">
-        <div className="w-16 h-16 bg-black rounded-full">
-          <img className="h-full w-full object-cover rounded-full" src="" alt="" />
+      <div
+        className={`w-full h-32 lg:hidden flex items-center justify-start pl-6 gap-6 ${
+          !displaySideBarSm && "hidden"
+        }`}
+      >
+        <div
+          className="w-16 h-16 rounded-full"
+          onClick={() => handleprofileClick()}
+        >
+          <img
+            className="h-full w-full object-cover rounded-full"
+            src={user.photoURL || blankProfile}
+            alt=""
+          />
         </div>
         <div>
           <p className="text-sm opacity-60">Welcome Back</p>
-          <p className="text-xl font-bold">UserName</p>
+          <p className="text-xl font-bold">{user.displayName}</p>
         </div>
       </div>
     </div>

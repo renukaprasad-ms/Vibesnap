@@ -2,34 +2,48 @@ import React from "react";
 import { FaHeart } from "react-icons/fa6";
 import { PiShareFatFill } from "react-icons/pi";
 
-const Post = () => {
+const Post = ({ post }) => {
+  console.log(post)
+  const date = post.timestamp.toDate();
+const hours = date.getHours();
+const Day = date.toLocaleString('en-US', { weekday: 'long' });
+const formattedTime = `${hours} ${Day}`;
   return (
-    <div className="w-5/6 h-auto border border-yellow-500 flex flex-col items-center">
+    <div className="w-5/6 h-auto border flex flex-col items-center bg-[#F7EBFF] rounded-3xl">
       <div className="w-full h-14 lg:h-28  flex items-center">
-        <div className="w-10 h-10 bg-black rounded-full m-2">
+        <div className="w-10 h-10 lg:h-16 lg:w-16 bg-black rounded-full m-2">
           <img
             className="h-full w-full object-cover rounded-full"
-            src=""
+            src={post.user.photoURL}
             alt=""
           />
         </div>
         <div>
-          <p className="text-sm font-semibold lg:text-2xl">UserName</p>
-          <p className="text-xs opacity-40 lg:text-base">2 hours</p>
+          <p className="text-sm font-semibold lg:text-2xl">{post.user.displayName}</p>
+          <p className="text-xs opacity-40 lg:text-base">{formattedTime}</p>
         </div>
       </div>
-      <div className="ml-4">
-        <p className="text-xs">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas
-          ipsa sapiente non, eveniet 
-        </p>
+      <div className="ml-4 w-5/6 flex items-start justify-start">
+        <p className="text-xs lg:text-xl">{post.description}</p>
       </div>
-      <div className="w-[90%] h-48 flex items-center justify-center mt-4">
-        <img className="w-[100%] h-[100%] object-cover rounded-xl" src="https://s3-alpha-sig.figma.com/img/92fa/0669/9fc5c5ac336e1596b0abe398f32fdc70?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mMphcmKQsBoabGeXTFFD15JhAA5xPBJcam28-pi3XzFVRoUggoy32oRtGOcDXM6SE15AY6a8GpolfuJJe9HCwvl4f2a3n3isrcC1jmGcyO7BxHC-Oh0hnl3zMIlLbDHdoB4liaKo7hscGtk2uIAAwHnHAB3ySpyVkDSOp4gDSDuH9FsXqQZ~gkT-oZ94dBCWuu3FfdXyGPmfNDidg-IIl81ZaflHOvd4oYlhsrIcrdg9sefzMHtE3pehhXvG1uiOnz0vF0vYfDtEkbnMqg4Upv5vz7POc4Le9LXXux44m3nzZEOXRP6T7Lg5dR9ZPPMXQ6jq6finIHfkQRB2TvlnYg__" alt="" />
+      <div className="w-[90%] h-48 lg:h-96 flex items-center justify-center mt-4">
+        <img
+          className="w-[100%] h-[100%] object-cover rounded-xl"
+          src={post.imageUrl}
+          alt=""
+        />
       </div>
-      <div className="w-5/6 h-10  flex items-center justify-between">
-        <FaHeart/>
-        <PiShareFatFill/>
+      <div className="w-5/6 h-20  flex items-center justify-between">
+        <div className="flex gap-2 w-1/3 items-center">
+        <FaHeart className="lg:hidden text-pink-300"></FaHeart>
+        <FaHeart size={25} className="hidden lg:block text-pink-300" />
+        <span className="text-pink-300">{post.likes}</span>
+        </div>
+        
+        <button className="w-12 h-6 lg:w-24 lg:h-10 bg-black/10 rounded-full flex items-center justify-center">
+          <PiShareFatFill className="lg:hidden" />
+          <PiShareFatFill size={20} className="hidden lg:block" />
+        </button>
       </div>
     </div>
   );

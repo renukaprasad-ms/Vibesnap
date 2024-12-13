@@ -1,7 +1,9 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
-const LoginSec = () => {
+const LoginSec = ({signInWithGoogle}) => {
+  
+  
   return (
     <div className="w-full h-full rounded-3xl flex flex-col mt-10 justify-start items-center lg:border lg:border-gray-300 lg:h-2/3 lg:w-2/3 lg:justify-center">
       <div className="w-full h-1/4 flex  items-center justify-center">
@@ -31,13 +33,14 @@ const LoginSec = () => {
             type="password"
           />
         </div>
+        <button>Log In</button>
       </div>
       <div className="hidden lg:block">OR</div>
       <button className="bg-black h-10 text-white w-2/3  lg:h-14 rounded-full flex items-center justify-center gap-2">
         <span>
           <FcGoogle size={25} />
         </span>
-        <div className="text-sm">Continue with Google</div>
+        <div className="text-sm" onClick={signInWithGoogle}>Continue with Google</div>
       </button>
     </div>
   );
