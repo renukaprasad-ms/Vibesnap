@@ -3,7 +3,6 @@ import { FaHeart } from "react-icons/fa6";
 import { PiShareFatFill } from "react-icons/pi";
 
 const Post = ({ post }) => {
-  console.log(post)
   const date = post.timestamp.toDate();
 const hours = date.getHours();
 const Day = date.toLocaleString('en-US', { weekday: 'long' });
