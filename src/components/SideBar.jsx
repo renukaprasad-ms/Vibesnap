@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -9,15 +9,19 @@ import { signOut } from "firebase/auth";
 import blankProfile from "../assets/profilepic.webp"
 
 const SideBar = ({displaySideBarSm }) => {
+  const [selected, setSelected] = useState('home')
   const user = auth?.currentUser
   const navigate = useNavigate();
   const handleprofileClick = () => {
     navigate("/profile/7843");
+    setSelected('profile')
   };
   const handleCreateClick = () => {
     navigate("/create");
+    setSelected('create')
   };
   const handleHomeClick = () => {
+    setSelected('home')
     navigate("/");
   };
   const handleSignOut =async () =>{
@@ -40,7 +44,7 @@ const SideBar = ({displaySideBarSm }) => {
         </div>
         <div className="w-full h-[60%] flex flex-col gap-6 pt-[10%]">
           <div
-            className="w-full h-[15%] flex items-center justify-center font-bold text-xl gap-4"
+            className={`w-full h-[15%] flex items-center justify-center ${selected == 'home'? "text-2xl font-bold" : "text-lg"} gap-4`}
             onClick={() => handleHomeClick()}
           >
             <div>
@@ -49,7 +53,7 @@ const SideBar = ({displaySideBarSm }) => {
             Home
           </div>
           <div
-            className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg "
+            className={`w-full h-[15%] flex items-center justify-center ${selected == 'profile'? "text-2xl font-bold" : "text-lg"} gap-4`}
             onClick={() => handleprofileClick()}
           >
             <div>
@@ -58,7 +62,7 @@ const SideBar = ({displaySideBarSm }) => {
             Profile
           </div>
           <div
-            className="w-full h-[15%] flex items-center justify-center  gap-4 text-lg"
+            className={`w-full h-[15%] flex items-center justify-center ${selected == 'create'? "text-2xl font-bold" : "text-lg"} gap-4`}
             onClick={() => handleCreateClick()}
           >
             <div>

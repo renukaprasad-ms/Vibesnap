@@ -28,7 +28,7 @@ const Home = ({ setDisplayProfileBar, setDisplaySideBarSm }) => {
   return (
     <div className="w-full h-auto lg:w-[60%] overflow-scroll scroll-container">
       <p className="font-bold text-xl ml-6 lg:text-4xl lg:m-8">Feeds</p>
-      <div className="w-full h-full flex flex-col gap-6 items-center">
+      <div className="w-full h-full flex flex-col gap-2 items-center">
         {posts.map((post) => (<Post key={post.id} post={post}/>))}
       </div>
     </div>

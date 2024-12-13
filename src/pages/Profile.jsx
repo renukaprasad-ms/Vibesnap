@@ -5,7 +5,7 @@ import { auth, db } from "../config/firebase";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import blankProfilr from "../assets/profilepic.webp";
 
-const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar }) => {
+const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar,userDetails }) => {
   const navigate = useNavigate();
   const user = auth?.currentUser;
   const [posts, setPosts] = useState([]);
@@ -13,15 +13,18 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar }) => {
   const handleCreateClick = () => {
     navigate("/create");
   };
+  const handleEditButton = () => {
+    navigate("/edit")
+  }
 
   const getPosts = async () => {
     try {
-      if (!user) return; // Ensure the user is logged in
+      if (!user) return;
       const postCollectionRef = collection(db, "posts");
-      const q = query(postCollectionRef, where("user.uid", "==", user.uid)); // Filter posts by UID
+      const q = query(postCollectionRef, where("user.uid", "==", user.uid));
       const querySnapshot = await getDocs(q);
       const filteredPosts = querySnapshot.docs.map((doc) => ({
-        id: doc.id, // Include document ID if needed
+        id: doc.id,
         ...doc.data(),
       }));
       setPosts(filteredPosts);
@@ -41,7 +44,7 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar }) => {
       <div className="h-[25%] lg:h-[25%] w-full bg-black">
         <img
           className="w-full h-full object-cover"
-          src="https://s3-alpha-sig.figma.com/img/d4b7/bb5d/bd8b3943a763e1d2e13b607efc1e224e?Expires=1734912000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=A1pL5l3UkYsKUQu~NsQFaKRw7PlByESy7RxouuE3Hwmt3DSbVicU-RffRXt9ZbYvCf3TLgPf5e4FtpcGWpE~-hBjPWqgdRQ9FQaz9A4AidFggdpWXL8jGK~xF4R~y3IE0OIAtPPpzBuNvjkBXcS~LqiXBJcffEiSHIMsAezKcO2ZH5TdVX53gdtO2kvCSCGUvGCYbJKMPOaU~jH5fyJ03dWX8il2084C80kpIvu7LU1IgyXmN-lvDqmd-VORxD5y355D~n4HWpvJiRa9K9wrDttiGafSz1jqjW1ka-ncrIoiN-SvTyM-wJ8n3LMNUfkbbAACRvCHNe2DNemxjt3eQw__"
+          src={userDetails.backdropPic}
           alt=""
         />
       </div>
@@ -49,21 +52,20 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar }) => {
         <div className="w-[40%] lg:w-[30%] h-full flex justify-center">
           <img
             className="w-28 h-28 rounded-full -mt-[50%] md:w-44 md:h-44 md:-mt-[40%] lg:-mt-[20%]"
-            src={user.photoURL || blankProfilr}
+            src={userDetails.profilePic || blankProfilr}
             alt=""
           />
         </div>
         <div className="w-1/2 h-full flex items-center justify-center">
-          <button className="w-full h-8 rounded-full font-light border border-gray-400">
+          <button className="w-full h-8 rounded-full font-light border border-gray-400" onClick={handleEditButton}>
             Edit Profile
           </button>
         </div>
       </div>
       <div className="w-[90%] h-[15%] flex flex-col gap-4">
-        <p className="font-bold text-2xl lg:text-4xl">{user?.displayName}</p>
+        <p className="font-bold text-2xl lg:text-4xl">{userDetails.username}</p>
         <p className="text-sm lg:text-lg">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa error
-          quis itaque ipsam. Hic tempore quae eligendi quisquam fugit eos!
+        {userDetails.bio}
         </p>
       </div>
       <div className="w-[90%] h-[52%] flex flex-col gap-4 relative">
@@ -72,7 +74,7 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar }) => {
           {posts.map((post) => (
             <div
               key={post.id}
-              className="w-[48%] h-2/3 lg:h-[75%] bg-red-500 rounded-xl"
+              className="w-[48%] h-2/3 lg:h-[75%]rounded-xl"
             >
               <img
                 src={post.imageUrl || blankProfilr}
