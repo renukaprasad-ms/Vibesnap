@@ -25,30 +25,26 @@ const App = () => {
         const userDocSnap = await getDoc(userDocRef);
 
         if (!userDocSnap.exists()) {
-          // User does not exist in Firestore, create a new user document
           const userData = {
             uid: currentUser.uid,
-            username: currentUser.displayName || "New User", // Use Firebase displayName or fallback to a default
+            username: currentUser.displayName || "New User",
             email: currentUser.email,
             profilePic: currentUser.photoURL || "",
-            bio: "", // You can add a default bio or leave it empty
+            bio: "",
           };
-          await setDoc(userDocRef, userData); // Add the new user to Firestore
-          setUserDetails(userData); // Set the new user data in state
+          await setDoc(userDocRef, userData);
+          setUserDetails(userData);
         } else {
-          // User exists in Firestore, update state with their data
           setUserDetails(userDocSnap.data());
         }
       } else {
         setLoggedIn(false);
-        setUserDetails(null); // Reset user details when logged out
+        setUserDetails(null);
       }
     });
 
     return () => unsubscribe();
   }, []);
-
-  // If user details are not loaded yet, show a loading state
   if (!userDetails && loggedIn) {
     return <div>Loading...</div>;
   }

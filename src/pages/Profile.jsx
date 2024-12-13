@@ -4,8 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../config/firebase";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import blankProfilr from "../assets/profilepic.webp";
+import { CgLogOut } from "react-icons/cg";
+import { signOut } from "firebase/auth";
 
-const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar,userDetails }) => {
+const Profile = ({
+  setDisplaySideBarSm,
+  setDisplayProfileBar,
+  userDetails,
+}) => {
   const navigate = useNavigate();
   const user = auth?.currentUser;
   const [posts, setPosts] = useState([]);
@@ -14,9 +20,16 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar,userDetails }) => {
     navigate("/create");
   };
   const handleEditButton = () => {
-    navigate("/edit")
-  }
+    navigate("/edit");
+  };
 
+  const handleSignOut = async() => {
+    try{
+      await signOut(auth, )
+    }catch(err) {
+      console.error(err)
+    }
+  }
   const getPosts = async () => {
     try {
       if (!user) return;
@@ -40,7 +53,7 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar,userDetails }) => {
   }, []);
 
   return (
-    <div className="h-screen lg:h-[150vh] w-full flex flex-col lg:w-[80%] items-center scroll-container">
+    <div className="h-[130vh] lg:h-[150vh] w-full flex flex-col lg:w-[80%] items-center scroll-container">
       <div className="h-[25%] lg:h-[25%] w-full bg-black">
         <img
           className="w-full h-full object-cover"
@@ -57,25 +70,23 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar,userDetails }) => {
           />
         </div>
         <div className="w-1/2 h-full flex items-center justify-center">
-          <button className="w-full h-8 rounded-full font-light border border-gray-400" onClick={handleEditButton}>
+          <button
+            className="w-full h-8 rounded-full font-light border border-gray-400"
+            onClick={handleEditButton}
+          >
             Edit Profile
           </button>
         </div>
       </div>
       <div className="w-[90%] h-[15%] flex flex-col gap-4">
         <p className="font-bold text-2xl lg:text-4xl">{userDetails.username}</p>
-        <p className="text-sm lg:text-lg">
-        {userDetails.bio}
-        </p>
+        <p className="text-sm lg:text-lg">{userDetails.bio}</p>
       </div>
-      <div className="w-[90%] h-[52%] flex flex-col gap-4 relative">
+      <div className="w-[90%] h-[70%] flex flex-col gap-4 relative">
         <div className="font-bold lg:text-2xl">My Posts</div>
         <div className="w-full h-[90%] flex flex-wrap overflow-scroll items-center gap-2 scroll-container">
           {posts.map((post) => (
-            <div
-              key={post.id}
-              className="w-[48%] h-2/3 lg:h-[75%]rounded-xl"
-            >
+            <div key={post.id} className="w-[48%] h-[55%] lg:h-[75%]rounded-xl">
               <img
                 src={post.imageUrl || blankProfilr}
                 alt={post.description || "Post Image"}
@@ -90,6 +101,12 @@ const Profile = ({ setDisplaySideBarSm, setDisplayProfileBar,userDetails }) => {
         >
           <HiOutlinePlusSm size={30} />
         </div>
+      </div>
+      <div className="h-20 w-[90%] flex items-center justify-center lg:hidden ">
+        <button className="w-full h-10 bg-black rounded-full text-white flex gap-2 items-center justify-center" onClick={handleSignOut}>
+          <CgLogOut size={20} />
+          Log Out
+        </button>
       </div>
     </div>
   );

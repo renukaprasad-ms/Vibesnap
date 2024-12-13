@@ -18,23 +18,6 @@ const LoginSec = ({signInWithGoogle}) => {
         {" "}
         Moments That Matter, Shared Forever.
       </div>
-      <div className="w-full h-[40%] lg:flex lg:flex-col lg:items-center lg:justify-center hidden  mt-9 lg:block">
-        <div className="w-3/4 h-1/2 flex flex-col gap-2 ">
-          <label htmlFor="">UserName</label>
-          <input
-            className="w-full h-[40%] border border-gray-300"
-            type="text"
-          />
-        </div>
-        <div className="w-3/4 h-1/2 flex flex-col gap-2 ">
-          <label htmlFor="">Password</label>
-          <input
-            className="w-full h-[40%] border border-gray-300"
-            type="password"
-          />
-        </div>
-        <button>Log In</button>
-      </div>
       <div className="hidden lg:block">OR</div>
       <button className="bg-black h-10 text-white w-2/3  lg:h-14 rounded-full flex items-center justify-center gap-2">
         <span>

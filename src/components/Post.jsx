@@ -6,7 +6,7 @@ import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 
 const Post = ({ post }) => {
   const [userDetails, setUserDetails] = useState(null);
-  const [likes, setLikes] = useState(post.likes); // Initialize likes state with the value from the post object
+  const [likes, setLikes] = useState(post.likes);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
