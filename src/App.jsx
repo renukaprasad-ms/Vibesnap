@@ -55,7 +55,10 @@ const App = () => {
         <LoginPage />
       ) : (
         <div className="w-full h-[100vh] flex flex-col lg:flex-row">
-          <SideBar displaySideBarSm={displaySideBarSm} />
+          <SideBar
+            displaySideBarSm={displaySideBarSm}
+            userDetails={userDetails}
+          />
           <Routes>
             <Route
               path="/"

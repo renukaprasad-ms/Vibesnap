@@ -8,7 +8,7 @@ import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import blankProfile from "../assets/profilepic.webp"
 
-const SideBar = ({displaySideBarSm }) => {
+const SideBar = ({displaySideBarSm,userDetails }) => {
   const [selected, setSelected] = useState('home')
   const user = auth?.currentUser
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ const SideBar = ({displaySideBarSm }) => {
         </div>
         <div>
           <p className="text-sm opacity-60">Welcome Back</p>
-          <p className="text-xl font-bold">{user.displayName}</p>
+          <p className="text-xl font-bold">{userDetails.username}</p>
         </div>
       </div>
     </div>
